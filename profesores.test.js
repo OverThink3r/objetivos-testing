@@ -5,9 +5,10 @@ const api = axios.create({
 
 describe("Profesores test", () => {
   test("Debe de mostrar todos los profesores", async () => {
-    const { status, statusText } = await api.get("/profesores");
+    const { status, statusText, data } = await api.get("/profesores");
     expect(status).toBe(200);
     expect(statusText).toBe("OK");
+    expect(data).not.toBeNull();
   });
 
   test("Debe de guardar la informacion de un profesor", async () => {
@@ -20,9 +21,13 @@ describe("Profesores test", () => {
       oculto: false,
     };
 
-    const { status, statusText } = await api.post(`profesores/`, nuevoProfesor);
+    const { status, statusText, data } = await api.post(
+      `profesores/`,
+      nuevoProfesor
+    );
     expect(status).toBe(200);
     expect(statusText).toBe("OK");
+    expect(data).toEqual(data);
   });
 
   test("No debe de guardar la informacion de un profesor con datos erroneos", async () => {
@@ -42,9 +47,12 @@ describe("Profesores test", () => {
 
   test("Debe de mostrar solo un profesor", async () => {
     const profesorId = 1;
-    const { status, statusText } = await api.get(`/profesores/${profesorId}`);
+    const { status, statusText, data } = await api.get(
+      `/profesores/${profesorId}`
+    );
     expect(status).toBe(200);
     expect(statusText).toBe("OK");
+    expect(data).not.toBeNull();
   });
 
   test("No debe mostrar informacion del profesor si no existe", async () => {
